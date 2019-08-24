@@ -3,14 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>me.ftvkyo.fuzzy_broccoli</groupId>
-        <artifactId>root</artifactId>
+        <groupId>me.ftvkyo</groupId>
+        <artifactId>fuzzy-broccoli-root</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common</artifactId>
-
-    <name>fuzzy-broccoli-common</name>
+    <artifactId>fuzzy-broccoli-common</artifactId>
 
     <build>
         <plugins>

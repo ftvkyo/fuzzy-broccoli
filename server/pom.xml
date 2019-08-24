@@ -3,19 +3,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>me.ftvkyo.fuzzy_broccoli</groupId>
-        <artifactId>root</artifactId>
+        <groupId>me.ftvkyo</groupId>
+        <artifactId>fuzzy-broccoli-root</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>server</artifactId>
+    <artifactId>fuzzy-broccoli-server</artifactId>
 
-    <name>fuzzy-broccoli-server</name>
+    <properties>
+        <class.main>me.ftvkyo.fuzzy_broccoli.server.Server</class.main>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>me.ftvkyo.fuzzy_broccoli</groupId>
-            <artifactId>common</artifactId>
+            <groupId>me.ftvkyo</groupId>
+            <artifactId>fuzzy-broccoli-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -26,15 +28,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven-jar-plugin.version}</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>me.ftvkyo.fuzzy_broccoli.server.Server</mainClass>
-                        </manifest>
-                    </archive>
-                    <outputDirectory>../target</outputDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </build>
