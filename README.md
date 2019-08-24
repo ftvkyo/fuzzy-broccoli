@@ -11,3 +11,6 @@ java -jar target/fuzzy-broccoli-client-*.jar <args>
 # or
 java -jar target/fuzzy-broccoli-server-*.jar <args>
 ```
+
+## Logo:
+![Logo](fuzzy-broccoli.png)
