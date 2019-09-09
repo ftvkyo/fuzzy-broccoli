@@ -3,43 +3,43 @@ package me.ftvkyo.fuzzy_broccoli.client.controller;
 import me.ftvkyo.fuzzy_broccoli.client.view.DrawableGame;
 import me.ftvkyo.fuzzy_broccoli.client.view.DrawableMainMenu;
 import me.ftvkyo.fuzzy_broccoli.client.view.Screen;
-import me.ftvkyo.fuzzy_broccoli.common.model.World;
+import me.ftvkyo.fuzzy_broccoli.common.model.WorldManager;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 
-public class InputProcessorPauseMenu implements InputProcessor {
+/**
+ * Input processor that should be used with DrawablePauseMenu.
+ */
+public class InputProcessorPauseMenu extends InputProcessor {
 
-    private final Screen screen;
-
-    private final World world;
-
-
-    InputProcessorPauseMenu(Screen screen, World world) {
-        this.screen = screen;
-        this.world = world;
+    InputProcessorPauseMenu(Screen screen, WorldManager worldManager, InputManager inputManager) {
+        super(screen, worldManager, inputManager);
     }
 
 
+    @Override
     public void keypress(long window, long key, long scancode, long action, long mods) {
         if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             screen.changeCurrentDrawable(DrawableGame.getInstance());
-            InputProcessor.setForWindow(window, new InputProcessorGame(screen, world));
+            this.inputManager.setInputProcessor(new InputProcessorGame(screen, worldManager, inputManager));
         }
 
         if(key == GLFW_KEY_ENTER && action == GLFW_RELEASE) {
             screen.changeCurrentDrawable(DrawableMainMenu.getInstance());
-            InputProcessor.setForWindow(window, new InputProcessorMainMenu(screen));
+            this.inputManager.setInputProcessor(new InputProcessorMainMenu(screen, worldManager, inputManager));
         }
     }
 
 
+    @Override
     public void mouseClick(long window, long button, long action, long mods) {
 
     }
 
 
-    public void mouseMove(long window, double xpos, double ypos) {
+    @Override
+    public void mouseMove(long window, double xPosition, double yPosition) {
 
     }
 }

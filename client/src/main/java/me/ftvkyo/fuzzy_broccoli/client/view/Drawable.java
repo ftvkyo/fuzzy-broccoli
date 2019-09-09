@@ -1,6 +1,7 @@
 package me.ftvkyo.fuzzy_broccoli.client.view;
 
 
+import me.ftvkyo.fuzzy_broccoli.client.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
 
 
@@ -9,11 +10,17 @@ import me.ftvkyo.fuzzy_broccoli.common.model.World;
  */
 public interface Drawable {
 
-    void init();
+    void init(ShaderProgram currentShaderProgram);
 
 
     void draw(World currentWorld);
 
 
     void clear();
+
+
+    enum State {
+        Empty,
+        Ready
+    }
 }
