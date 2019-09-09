@@ -35,9 +35,10 @@ public class MyGL {
     }
 
 
-    public static void bindNewVBO(int index, float[] vertices, int VAO) {
-        final int vecSize = 3;
-        final int vertexComponents = 3;
+    public static void bindTexturedVertices(int positionIndex, int textureIndex, float[] vertices, int VAO) {
+        final int positionVecSize = 3;
+        final int textureVecSize = 2;
+        final int vertexComponents = 5;
         final int floatBytesSize = 4;
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length).put(vertices).flip();
@@ -49,8 +50,12 @@ public class MyGL {
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO); // bind VBO
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-        MyGL.vertexAttribPointer(index, vecSize, GL_FLOAT, false, vertexComponents * floatBytesSize, 0);
-        glEnableVertexAttribArray(index);
+        System.out.println("position index: " + positionIndex);
+        System.out.println("texture index: " + textureIndex);
+        MyGL.vertexAttribPointer(positionIndex, positionVecSize, GL_FLOAT, false, vertexComponents * floatBytesSize, 0);
+        MyGL.vertexAttribPointer(textureIndex, textureVecSize, GL_FLOAT, false, vertexComponents * floatBytesSize, positionVecSize * floatBytesSize);
+        glEnableVertexAttribArray(positionIndex);
+        glEnableVertexAttribArray(textureIndex);
 
         glBindVertexArray(0); // unbind VAO
         /* Unbinding VBO can be skipped because it is unbound with VAO. */

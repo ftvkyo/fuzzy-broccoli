@@ -1,13 +1,9 @@
 #version 330 core
-in vec4 vPos;
-in vec4 vColorMain;
-in vec4 vColorAlternative;
-out vec4 FragColor;
+layout (location = 0) in vec3 vertex;
+layout (location = 1) in vec2 texture;
+out vec2 texCoord;
 void main()
 {
-    if (length(vPos.xyz) > 0.2) {
-        FragColor = vColorMain;
-    } else {
-        FragColor = vColorAlternative;
-    }
+    gl_Position = vec4(vertex.xyz, 1.0);
+    texCoord = texture;
 }
