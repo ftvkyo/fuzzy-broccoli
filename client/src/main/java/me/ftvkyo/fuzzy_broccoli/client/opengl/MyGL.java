@@ -37,7 +37,8 @@ public class MyGL {
 
     public static void bindNewVBO(int index, float[] vertices, int VAO) {
         final int vecSize = 3;
-        final int COMPONENT_BYTES_SIZE = 4;
+        final int vertexComponents = 3;
+        final int floatBytesSize = 4;
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length).put(vertices).flip();
 
@@ -48,7 +49,7 @@ public class MyGL {
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO); // bind VBO
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-        MyGL.vertexAttribPointer(index, vecSize, GL_FLOAT, false, vecSize * COMPONENT_BYTES_SIZE, 0);
+        MyGL.vertexAttribPointer(index, vecSize, GL_FLOAT, false, vertexComponents * floatBytesSize, 0);
         glEnableVertexAttribArray(index);
 
         glBindVertexArray(0); // unbind VAO
