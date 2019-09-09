@@ -3,22 +3,24 @@ package me.ftvkyo.fuzzy_broccoli.client.controller;
 import me.ftvkyo.fuzzy_broccoli.client.view.DrawableGame;
 import me.ftvkyo.fuzzy_broccoli.client.view.Screen;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
+import me.ftvkyo.fuzzy_broccoli.common.model.WorldManager;
 
 import java.io.File;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 
-public class InputProcessorMainMenu implements InputProcessor {
+/**
+ * Input processor that should be used with DrawableMainMenu.
+ */
+public class InputProcessorMainMenu extends InputProcessor {
 
-    private final Screen screen;
-
-
-    InputProcessorMainMenu(Screen screen) {
-        this.screen = screen;
+    public InputProcessorMainMenu(Screen screen, WorldManager worldManager, InputManager inputManager) {
+        super(screen, worldManager, inputManager);
     }
 
 
+    @Override
     public void keypress(long window, long key, long scancode, long action, long mods) {
         if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             glfwSetWindowShouldClose(window, true);
@@ -26,17 +28,20 @@ public class InputProcessorMainMenu implements InputProcessor {
 
         if(key == GLFW_KEY_ENTER && action == GLFW_RELEASE) {
             screen.changeCurrentDrawable(DrawableGame.getInstance());
-            InputProcessor.setForWindow(window, new InputProcessorGame(screen, new World(new File(""))));
+            this.worldManager.setWorld(new World(new File("")));
+            this.inputManager.setInputProcessor(new InputProcessorGame(screen, worldManager, inputManager));
         }
     }
 
 
+    @Override
     public void mouseClick(long window, long button, long action, long mods) {
 
     }
 
 
-    public void mouseMove(long window, double xpos, double ypos) {
+    @Override
+    public void mouseMove(long window, double xPosition, double yPosition) {
 
     }
 }

@@ -1,6 +1,7 @@
 package me.ftvkyo.fuzzy_broccoli.client.view;
 
 
+import me.ftvkyo.fuzzy_broccoli.client.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
 
 import static org.lwjgl.opengl.GL33.glClearColor;
@@ -10,8 +11,11 @@ public class DrawablePauseMenu implements Drawable {
 
     private static final DrawablePauseMenu instance = new DrawablePauseMenu();
 
+    private State state;
+
 
     private DrawablePauseMenu() {
+        this.state = State.Empty;
     }
 
 
@@ -21,19 +25,27 @@ public class DrawablePauseMenu implements Drawable {
 
 
     @Override
-    public void init() {
+    public void init(ShaderProgram currentShaderProgram) {
+        if(this.state != State.Empty) {
+            throw new IllegalStateException("Attempt to initialize Drawable twice.");
+        }
+
         glClearColor(0.7f, 0.7f, 0.7f, 0.0f);
+
+        this.state = State.Ready;
     }
 
 
     @Override
     public void draw(World currentWorld) {
-        DrawableGame.getInstance().draw(currentWorld);
+        if(this.state != State.Ready) {
+            throw new IllegalStateException("Attempt to use uninitialized drawable.");
+        }
     }
 
 
     @Override
     public void clear() {
-
+        this.state = State.Empty;
     }
 }
