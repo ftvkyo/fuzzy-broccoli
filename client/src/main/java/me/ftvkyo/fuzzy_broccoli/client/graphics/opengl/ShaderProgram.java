@@ -1,4 +1,4 @@
-package me.ftvkyo.fuzzy_broccoli.client.opengl;
+package me.ftvkyo.fuzzy_broccoli.client.graphics.opengl;
 
 import org.lwjgl.system.MemoryStack;
 

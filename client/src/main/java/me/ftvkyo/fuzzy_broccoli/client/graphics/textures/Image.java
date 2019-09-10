@@ -1,4 +1,4 @@
-package me.ftvkyo.fuzzy_broccoli.client.textures;
+package me.ftvkyo.fuzzy_broccoli.client.graphics.textures;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;

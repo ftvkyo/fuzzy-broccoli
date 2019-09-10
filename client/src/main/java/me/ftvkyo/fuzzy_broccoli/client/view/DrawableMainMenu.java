@@ -1,9 +1,10 @@
 package me.ftvkyo.fuzzy_broccoli.client.view;
 
 
-import me.ftvkyo.fuzzy_broccoli.client.opengl.MyGL;
-import me.ftvkyo.fuzzy_broccoli.client.opengl.ShaderProgram;
-import me.ftvkyo.fuzzy_broccoli.client.textures.Image;
+import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.MyGL;
+import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
+import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.VertexTextured;
+import me.ftvkyo.fuzzy_broccoli.client.graphics.textures.Image;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -13,12 +14,12 @@ public class DrawableMainMenu implements Drawable {
 
     private static final DrawableMainMenu instance = new DrawableMainMenu();
 
-    private final float[] vertices = {
-            0.0f, 0.0f, 0.0f, 0.5f, 0.5f, // 0: center
-            0.5f, 0.5f, 0.0f, 1.0f, 1.0f, // 1: top-right
-            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, // 2: top-left
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // 3: bottom-left
-            0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 4: bottom-right
+    private final VertexTextured[] vertices = {
+            new VertexTextured(0.0f, 0.0f, 0.0f, 0.5f, 0.5f), // 0: center
+            new VertexTextured(0.5f, 0.5f, 0.0f, 1.0f, 1.0f), // 1: top-right
+            new VertexTextured(-0.5f, 0.5f, 0.0f, 0.0f, 1.0f), // 2: top-left
+            new VertexTextured(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f), // 3: bottom-left
+            new VertexTextured(0.5f, -0.5f, 0.0f, 1.0f, 0.0f), // 4: bottom-right
     };
 
     private final int[] verticesOrder = {
@@ -57,10 +58,10 @@ public class DrawableMainMenu implements Drawable {
 
         VAO = glGenVertexArrays();
         // Load vertices into GPU and put them into the attributes list at index 0 of given VAO
-        int vertexIndex = glGetAttribLocation(currentShaderProgram.getID(), "vertex");
-        int textureIndex = glGetAttribLocation(currentShaderProgram.getID(), "texture");
-        MyGL.bindTexturedVertices(vertexIndex, textureIndex, vertices, VAO);
-        MyGL.bindNewEBO(verticesOrder, VAO);
+        int vertexAttributeIndex = glGetAttribLocation(currentShaderProgram.getID(), "vertex");
+        assert glGetAttribLocation(currentShaderProgram.getID(), "texture") == vertexAttributeIndex + 1;
+        MyGL.bindVBO(vertexAttributeIndex, vertices, VAO);
+        MyGL.bindEBO(verticesOrder, VAO);
 
         glClearColor(0.1f, 0.3f, 0.3f, 0.0f);
 
