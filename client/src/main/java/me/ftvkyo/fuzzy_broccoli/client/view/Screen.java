@@ -1,6 +1,6 @@
 package me.ftvkyo.fuzzy_broccoli.client.view;
 
-import me.ftvkyo.fuzzy_broccoli.client.opengl.ShaderProgram;
+import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFWErrorCallback;

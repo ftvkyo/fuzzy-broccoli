@@ -1,4 +1,4 @@
-package me.ftvkyo.fuzzy_broccoli.client.opengl;
+package me.ftvkyo.fuzzy_broccoli.client.graphics.opengl;
 
 import org.lwjgl.system.MemoryStack;
 
@@ -9,9 +9,9 @@ import static org.lwjgl.opengl.GL33.*;
 
 public class ShaderProgram implements AutoCloseable {
 
-    public static final String defaultVertexShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.frag";
+    public static final String defaultVertexShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.vert";
 
-    public static final String defaultFragmentShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.vert";
+    public static final String defaultFragmentShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.frag";
 
     private final int shaderProgram;
 
