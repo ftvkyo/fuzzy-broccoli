@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 /**
- * World class is a "Model" part in MVC.
+ * World class is the "Model" part in MVC.
  */
 public class World implements AutoCloseable {
 

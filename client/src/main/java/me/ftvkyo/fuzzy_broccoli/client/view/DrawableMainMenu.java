@@ -6,6 +6,7 @@ import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.VertexTextured;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.textures.Image;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
+import org.jetbrains.annotations.NotNull;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -47,7 +48,7 @@ public class DrawableMainMenu implements Drawable {
 
 
     @Override
-    public void init(ShaderProgram currentShaderProgram) {
+    public void init(@NotNull ShaderProgram currentShaderProgram) {
         if(this.state != State.Empty) {
             throw new IllegalStateException("Attempt to initialize Drawable twice.");
         }
@@ -87,6 +88,11 @@ public class DrawableMainMenu implements Drawable {
         if(VAO != 0) {
             glDeleteVertexArrays(VAO);
             VAO = 0;
+        }
+
+        if(texture != 0) {
+            glDeleteTextures(texture);
+            texture = 0;
         }
 
         this.state = State.Empty;

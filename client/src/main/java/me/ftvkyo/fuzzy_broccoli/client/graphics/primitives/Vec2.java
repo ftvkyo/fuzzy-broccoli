@@ -1,5 +1,9 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.primitives;
 
+
+/**
+ * Two-dimensional vector.
+ */
 public class Vec2 {
 
     float[] vec;
@@ -15,16 +19,31 @@ public class Vec2 {
     }
 
 
+    /**
+     * Get size of vector component.
+     *
+     * @return vector component size.
+     */
     public static int componentSize() {
         return 4;
     }
 
 
+    /**
+     * Get number of components in vector.
+     *
+     * @return components number
+     */
     public static int size() {
         return 2;
     }
 
 
+    /**
+     * Get a copy of internal array.
+     *
+     * @return copy of vector data.
+     */
     public float[] asArray() {
         return vec.clone();
     }

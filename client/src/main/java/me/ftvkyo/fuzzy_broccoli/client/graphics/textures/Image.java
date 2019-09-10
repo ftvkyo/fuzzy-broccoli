@@ -1,5 +1,6 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.textures;
 
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
 
@@ -15,6 +16,10 @@ import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.stb.STBImage.*;
 
 
+/**
+ * Image class for loading a texture into OpenGL.
+ * TODO: review and update.
+ */
 public class Image implements AutoCloseable {
 
     private final ByteBuffer image;
@@ -34,7 +39,13 @@ public class Image implements AutoCloseable {
     }
 
 
-    static public Image fromResource(String resource) {
+    /**
+     * Load image from resource with given path.
+     *
+     * @param resource path to resource.
+     * @return Image
+     */
+    static public Image fromResource(@NotNull String resource) {
         final int initialBufferSize = 4;
 
         ByteBuffer buffer;
@@ -80,6 +91,11 @@ public class Image implements AutoCloseable {
     }
 
 
+    /**
+     * Create and return OpenGL texture generated from this image.
+     *
+     * @return OpenGL texture id
+     */
     public int createTexture() {
         int texID = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, texID);

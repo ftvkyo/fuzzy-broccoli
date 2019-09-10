@@ -3,6 +3,7 @@ package me.ftvkyo.fuzzy_broccoli.client.view;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
@@ -12,10 +13,14 @@ import java.util.Scanner;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 
+/**
+ * Drawable manager.
+ * Creates window.
+ */
 public class Screen implements AutoCloseable {
 
     private long windowGLFW;
@@ -80,7 +85,12 @@ public class Screen implements AutoCloseable {
     }
 
 
-    public void redraw(World currentWorld) {
+    /**
+     * Redraw screen contents.
+     *
+     * @param currentWorld world to draw (if any).
+     */
+    public void redraw(@Nullable World currentWorld) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         currentDrawable.draw(currentWorld);
 
@@ -93,6 +103,12 @@ public class Screen implements AutoCloseable {
     }
 
 
+    /**
+     * Substitute current drawable.
+     * Perform clean on previous and then initialize the new one.
+     *
+     * @param drawable new drawable.
+     */
     public void changeCurrentDrawable(@NotNull Drawable drawable) {
         currentDrawable.clear();
         currentDrawable = drawable;
@@ -101,11 +117,21 @@ public class Screen implements AutoCloseable {
     }
 
 
+    /**
+     * Get GLFW id of this Screen's window.
+     *
+     * @return window id
+     */
     public long getWindowGLFW() {
         return windowGLFW;
     }
 
 
+    /**
+     * Check if this Screen's window should close.
+     *
+     * @return should close this Screen's window
+     */
     public boolean shouldClose() {
         return glfwWindowShouldClose(windowGLFW);
     }

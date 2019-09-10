@@ -1,5 +1,9 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.primitives;
 
+
+/**
+ * Extension of simple vertex that can store vertex texture binding.
+ */
 public class VertexTextured extends VertexSimple {
 
     private Vec2 texture;
@@ -11,6 +15,11 @@ public class VertexTextured extends VertexSimple {
     }
 
 
+    /**
+     * Get number of components used to store texture info.
+     *
+     * @return number of texture components.
+     */
     public static int componentsPerTexture() {
         return Vec2.size();
     }
