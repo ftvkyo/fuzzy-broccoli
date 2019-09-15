@@ -5,7 +5,7 @@ import me.ftvkyo.fuzzy_broccoli.common.model.WorldManager;
 
 
 /**
- * InputProcessor is a "Controller" part in MVC.
+ * InputProcessor is the "Controller" part in MVC.
  * It provides callbacks for different user input actions.
  */
 public abstract class InputProcessor {

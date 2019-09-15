@@ -37,6 +37,9 @@ public class InputManager {
     }
 
 
+    /**
+     * Check if there are pending GLFW input events and call corresponding callbacks.
+     */
     public void pollEvents() {
         glfwPollEvents();
     }

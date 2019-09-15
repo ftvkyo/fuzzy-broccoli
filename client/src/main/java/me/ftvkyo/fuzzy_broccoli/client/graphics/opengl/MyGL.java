@@ -12,6 +12,9 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL33.*;
 
 
+/**
+ * Wrapper for some OpenGL interactions.
+ */
 public class MyGL {
 
     /**
@@ -39,6 +42,13 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Vertex Buffer Object from simple vertices and bind it to attribute atIndex in VAO.
+     *
+     * @param atIndex  attribute index that the VBO should be bind to
+     * @param vertices array of vertices that should be loaded into the VBO
+     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     */
     public static void bindVBO(int atIndex, VertexSimple[] vertices, int VAO) {
         final int positionComponents = VertexSimple.componentsPerPosition();
 
@@ -48,6 +58,15 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Vertex Buffer Object from colored vertices and bind it to attribute atIndex in VAO.
+     * Assumes that color attribute location is atIndex + 1.
+     * TODO: Add parameter for color attribute location.
+     *
+     * @param atIndex  attribute index that the VBO should be bind to
+     * @param vertices array of vertices that should be loaded into the VBO
+     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     */
     public static void bindVBO(int atIndex, VertexColored[] vertices, int VAO) {
         final int positionComponents = VertexColored.componentsPerPosition();
         final int colorComponents = VertexColored.componentsPerColor();
@@ -58,6 +77,15 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Vertex Buffer Object from textured vertices and bind it to attribute atIndex in VAO.
+     * Assumes that texture attribute location is atIndex + 1.
+     * TODO: Add parameter for texture attribute location.
+     *
+     * @param atIndex  attribute index that the VBO should be bind to
+     * @param vertices array of vertices that should be loaded into the VBO
+     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     */
     public static void bindVBO(int atIndex, VertexTextured[] vertices, int VAO) {
         final int positionComponents = VertexTextured.componentsPerPosition();
         final int textureComponents = VertexTextured.componentsPerTexture();
@@ -68,6 +96,15 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Vertex Buffer Object, load the buffer into it and bind it to the VAO.
+     *
+     * @param componentSize size in bytes for one component of vertex
+     * @param atIndex       attribute index that the VBO should be bind to
+     * @param components    amount of components per one vertex
+     * @param buffer        raw consecutive vertices components that should be loaded into the VBO
+     * @param VAO           Vertex Arrays Object that VBO should be bind to
+     */
     private static void bindVBO(int componentSize, int atIndex, int components, FloatBuffer buffer, int VAO) {
         final int attributeStride = componentSize * components;
 
@@ -87,6 +124,17 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Vertex Buffer Object, load the buffer into it and bind it to the VAO.
+     *
+     * @param componentSize size in bytes for one component of vertex
+     * @param atIndex1      attribute index that the VBO should be bind to
+     * @param components1   amount of components per one vertex
+     * @param atIndex2      attribute index that the VBO should be bind to
+     * @param components2   amount of components per one vertex
+     * @param buffer        raw consecutive vertices components that should be loaded into the VBO
+     * @param VAO           Vertex Arrays Object that VBO should be bind to
+     */
     private static void bindVBO(int componentSize, int atIndex1, int components1, int atIndex2, int components2, FloatBuffer buffer, int VAO) {
         final int attributeStride = componentSize * (components1 + components2);
 
@@ -108,6 +156,12 @@ public class MyGL {
     }
 
 
+    /**
+     * Create new Element Buffer Object and store it in the VAO.
+     *
+     * @param indices indices that should be loaded into the EBO
+     * @param VAO     Vertex Arrays Object that EBO should be stored in
+     */
     public static void bindEBO(int[] indices, int VAO) {
         IntBuffer buffer = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
 

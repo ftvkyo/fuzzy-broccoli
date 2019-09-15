@@ -3,19 +3,35 @@ package me.ftvkyo.fuzzy_broccoli.client.view;
 
 import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
- * Drawable class is a "View" part in MVC.
+ * Drawable implementors are the "View" part in MVC.
  */
 public interface Drawable {
 
-    void init(ShaderProgram currentShaderProgram);
+    /**
+     * Initialize current drawable
+     * TODO: maybe use and set shader programs in Drawables rather than in Screen.
+     *
+     * @param currentShaderProgram id of shader program that will be used through Drawable's draw calls.
+     */
+    void init(@NotNull ShaderProgram currentShaderProgram);
 
 
-    void draw(World currentWorld);
+    /**
+     * Draw this Drawable.
+     *
+     * @param currentWorld world to draw (if any).
+     */
+    void draw(@Nullable World currentWorld);
 
 
+    /**
+     * Perform cleanup after use of this Drawable.
+     */
     void clear();
 
 

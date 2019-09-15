@@ -3,6 +3,7 @@ package me.ftvkyo.fuzzy_broccoli.client.view;
 
 import me.ftvkyo.fuzzy_broccoli.client.graphics.opengl.ShaderProgram;
 import me.ftvkyo.fuzzy_broccoli.common.model.World;
+import org.jetbrains.annotations.NotNull;
 
 import static org.lwjgl.opengl.GL33.glClearColor;
 
@@ -25,7 +26,7 @@ public class DrawableGame implements Drawable {
 
 
     @Override
-    public void init(ShaderProgram currentShaderProgram) {
+    public void init(@NotNull ShaderProgram currentShaderProgram) {
         if(this.state != State.Empty) {
             throw new IllegalStateException("Attempt to initialize Drawable twice.");
         }
