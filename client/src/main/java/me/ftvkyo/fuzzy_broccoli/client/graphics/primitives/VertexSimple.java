@@ -1,16 +1,27 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.primitives;
 
 
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import java.nio.FloatBuffer;
+
+
 /**
  * Simple three-dimensional vertex.
  */
 public class VertexSimple {
 
-    private Vec4 position;
+    private Vector4f position;
 
 
     public VertexSimple(float x, float y, float z) {
-        position = new Vec4(x, y, z, 1);
+        position = new Vector4f(x, y, z, 1);
+    }
+
+
+    public VertexSimple(Vector3f xyz) {
+        position = new Vector4f(xyz, 1);
     }
 
 
@@ -19,8 +30,8 @@ public class VertexSimple {
      *
      * @return vector component size.
      */
-    public static int componentSize() {
-        return Vec4.componentSize();
+    public int componentSize() {
+        return 4; // Size of float
     }
 
 
@@ -29,17 +40,13 @@ public class VertexSimple {
      *
      * @return number of position components.
      */
-    public static int componentsPerPosition() {
-        return Vec4.size();
+    public int componentsPerPosition() {
+        return 4;
     }
 
 
-    /**
-     * Get vertex as raw consecutive array of components.
-     *
-     * @return array of components.
-     */
-    public float[] asArray() {
-        return position.asArray();
+    public void get(FloatBuffer fb) {
+        position.get(fb);
+        fb.position(fb.position() + componentsPerPosition());
     }
 }

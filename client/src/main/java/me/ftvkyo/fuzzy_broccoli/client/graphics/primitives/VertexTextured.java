@@ -1,17 +1,29 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.primitives;
 
 
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+
+import java.nio.FloatBuffer;
+
+
 /**
  * Extension of simple vertex that can store vertex texture binding.
  */
 public class VertexTextured extends VertexSimple {
 
-    private Vec2 texture;
+    private Vector2f texture;
 
 
     public VertexTextured(float x, float y, float z, float textureX, float textureY) {
         super(x, y, z);
-        texture = new Vec2(textureX, textureY);
+        texture = new Vector2f(textureX, textureY);
+    }
+
+
+    public VertexTextured(Vector3f pos, Vector2f tex) {
+        super(pos);
+        texture = tex;
     }
 
 
@@ -20,13 +32,14 @@ public class VertexTextured extends VertexSimple {
      *
      * @return number of texture components.
      */
-    public static int componentsPerTexture() {
-        return Vec2.size();
+    public int componentsPerTexture() {
+        return 2;
     }
 
 
-    @Override
-    public float[] asArray() {
-        return Utils.joinArrays(super.asArray(), this.texture.asArray());
+    public void get(FloatBuffer fb) {
+        super.get(fb);
+        texture.get(fb);
+        fb.position(fb.position() + componentsPerTexture());
     }
 }

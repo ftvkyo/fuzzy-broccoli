@@ -27,7 +27,7 @@
         <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
 
-        <class.main/>
+        <joml.version>1.9.17</joml.version>
     </properties>
 
     <dependencies>

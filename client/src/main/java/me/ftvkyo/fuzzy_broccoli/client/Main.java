@@ -1,12 +1,9 @@
 package me.ftvkyo.fuzzy_broccoli.client;
 
-import me.ftvkyo.fuzzy_broccoli.client.controller.InputManager;
-import me.ftvkyo.fuzzy_broccoli.client.controller.InputProcessor;
-import me.ftvkyo.fuzzy_broccoli.client.controller.InputProcessorMainMenu;
-import me.ftvkyo.fuzzy_broccoli.client.view.DrawableMainMenu;
-import me.ftvkyo.fuzzy_broccoli.client.view.Screen;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.controller.ManagerForController;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.model.ManagerForModel;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.view.ManagerForView;
 import me.ftvkyo.fuzzy_broccoli.common.ArgumentProcessor;
-import me.ftvkyo.fuzzy_broccoli.common.model.WorldManager;
 
 
 /**
@@ -21,20 +18,17 @@ public class Main implements AutoCloseable {
 
     private static final int MSPF = 1000 / FPS;
 
-    private WorldManager worldManager;
+    private ManagerForModel modelManager;
 
-    private Screen screen;
+    private ManagerForView viewManager;
 
-    private InputManager inputManager;
+    private ManagerForController controllerManager;
 
 
     private Main() {
-        this.worldManager = new WorldManager();
-        this.screen = new Screen(DrawableMainMenu.getInstance());
-        this.inputManager = new InputManager(screen.getWindowGLFW());
-
-        InputProcessor ip = new InputProcessorMainMenu(this.screen, this.worldManager, this.inputManager);
-        this.inputManager.setInputProcessor(ip);
+        this.modelManager = new ManagerForModel();
+        this.viewManager = new ManagerForView().setView("main-menu");
+        this.controllerManager = new ManagerForController(viewManager.getWindowGLFW(), viewManager, modelManager).setController("main-menu");
     }
 
 
@@ -53,10 +47,10 @@ public class Main implements AutoCloseable {
 
     private void run() {
         try {
-            while(!screen.shouldClose()) {
-                this.worldManager.update();
-                this.screen.redraw(worldManager.getWorld());
-                this.inputManager.pollEvents();
+            while(!viewManager.shouldClose()) {
+                this.modelManager.update();
+                this.viewManager.redraw(modelManager);
+                this.controllerManager.pollEvents();
 
                 Thread.sleep(MSPF);
             }
@@ -68,7 +62,7 @@ public class Main implements AutoCloseable {
 
     @Override
     public void close() {
-        worldManager.close();
-        screen.close();
+        modelManager.close();
+        viewManager.close();
     }
 }

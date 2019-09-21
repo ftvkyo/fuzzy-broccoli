@@ -1,26 +1,26 @@
-package me.ftvkyo.fuzzy_broccoli.client.controller;
+package me.ftvkyo.fuzzy_broccoli.client.mvc.controller;
 
-import me.ftvkyo.fuzzy_broccoli.client.view.Screen;
-import me.ftvkyo.fuzzy_broccoli.common.model.WorldManager;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.model.ManagerForModel;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.view.ManagerForView;
 
 
 /**
  * InputProcessor is the "Controller" part in MVC.
  * It provides callbacks for different user input actions.
  */
-public abstract class InputProcessor {
+abstract class Controller {
 
-    final Screen screen;
+    final ManagerForView viewManager;
 
-    final WorldManager worldManager;
+    final ManagerForModel modelManager;
 
-    final InputManager inputManager;
+    final ManagerForController controllerManager;
 
 
-    InputProcessor(Screen screen, WorldManager worldManager, InputManager inputManager) {
-        this.screen = screen;
-        this.worldManager = worldManager;
-        this.inputManager = inputManager;
+    Controller(ManagerForView viewManager, ManagerForModel modelManager, ManagerForController controllerManager) {
+        this.viewManager = viewManager;
+        this.modelManager = modelManager;
+        this.controllerManager = controllerManager;
     }
 
 
@@ -33,7 +33,7 @@ public abstract class InputProcessor {
      * @param action   Whether the key was pressed or released.
      * @param mods     Modifiers that were held while action.
      */
-    void keypress(long window, long key, long scancode, long action, long mods) {
+    public void keypress(long window, long key, long scancode, long action, long mods) {
     }
 
 
@@ -45,7 +45,7 @@ public abstract class InputProcessor {
      * @param action Whether the button was pressed or released.
      * @param mods   Modifiers that were held while action.
      */
-    void mouseClick(long window, long button, long action, long mods) {
+    public void mouseClick(long window, long button, long action, long mods) {
     }
 
 
@@ -56,6 +56,6 @@ public abstract class InputProcessor {
      * @param xPosition New position of cursor (x coordinate).
      * @param yPosition New position of cursor (y coordinate).
      */
-    void mouseMove(long window, double xPosition, double yPosition) {
+    public void mouseMove(long window, double xPosition, double yPosition) {
     }
 }
