@@ -1,35 +1,20 @@
-package me.ftvkyo.fuzzy_broccoli.client.mvc.controller;
+package me.ftvkyo.fuzzy_broccoli.client.mvc.controller
 
-import me.ftvkyo.fuzzy_broccoli.client.mvc.model.ManagerForModel;
-import me.ftvkyo.fuzzy_broccoli.client.mvc.view.ManagerForView;
+import me.ftvkyo.fuzzy_broccoli.client.mvc.model.ManagerForModel
+import me.ftvkyo.fuzzy_broccoli.client.mvc.view.ManagerForView
 
 
 /**
  * InputProcessor is the "Controller" part in MVC.
  * It provides callbacks for different user input actions.
  */
-abstract class Controller {
-
-    final ManagerForView viewManager;
-
-    final ManagerForModel modelManager;
-
-    final ManagerForController controllerManager;
+internal abstract class Controller(val viewManager: ManagerForView, val modelManager: ManagerForModel, val controllerManager: ManagerForController) {
 
 
-    Controller(ManagerForView viewManager, ManagerForModel modelManager, ManagerForController controllerManager) {
-        this.viewManager = viewManager;
-        this.modelManager = modelManager;
-        this.controllerManager = controllerManager;
-    }
+    open fun init(window: Long) {}
 
 
-    public void init(long window) {
-    }
-
-
-    public void terminate(long window) {
-    }
+    open fun terminate(window: Long) {}
 
 
     /**
@@ -41,8 +26,7 @@ abstract class Controller {
      * @param action   Whether the key was pressed or released.
      * @param mods     Modifiers that were held while action.
      */
-    public void keypress(long window, long key, long scancode, long action, long mods) {
-    }
+    open fun keypress(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {}
 
 
     /**
@@ -53,8 +37,7 @@ abstract class Controller {
      * @param action Whether the button was pressed or released.
      * @param mods   Modifiers that were held while action.
      */
-    public void mouseClick(long window, long button, long action, long mods) {
-    }
+    fun mouseClick(window: Long, button: Int, action: Int, mods: Int) {}
 
 
     /**
@@ -64,6 +47,5 @@ abstract class Controller {
      * @param xPosition New position of cursor (x coordinate).
      * @param yPosition New position of cursor (y coordinate).
      */
-    public void mouseMove(long window, double xPosition, double yPosition) {
-    }
+    open fun mouseMove(window: Long, xPosition: Double, yPosition: Double) {}
 }
