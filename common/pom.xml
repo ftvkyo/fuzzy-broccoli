@@ -10,6 +10,14 @@
 
     <artifactId>fuzzy-broccoli-common</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>${joml.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

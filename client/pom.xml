@@ -61,6 +61,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>${joml.version}</version>
+        </dependency>
+
         <!-- LWJGL: Libs -->
         <dependency>
             <groupId>org.lwjgl</groupId>

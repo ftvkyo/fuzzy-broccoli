@@ -2,7 +2,10 @@ package me.ftvkyo.fuzzy_broccoli.client.graphics.opengl;
 
 import org.lwjgl.system.MemoryStack;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.IntBuffer;
+import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -14,14 +17,24 @@ import static org.lwjgl.opengl.GL33.*;
 public class ShaderProgram implements AutoCloseable {
 
     /**
-     * Path to resource of default vertex shader.
+     * Path to resource of default 2D vertex shader.
      */
-    public static final String defaultVertexShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.vert";
+    public static final String default2DVertexShaderResource = "me/ftvkyo/fuzzy_broccoli/client/graphics/opengl/shader-2d.vert";
 
     /**
-     * Path to resource of default fragment shader.
+     * Path to resource of default 2D fragment shader.
      */
-    public static final String defaultFragmentShaderResource = "me/ftvkyo/fuzzy_broccoli/client/opengl/shader.frag";
+    public static final String default2DFragmentShaderResource = "me/ftvkyo/fuzzy_broccoli/client/graphics/opengl/shader.frag";
+
+    /**
+     * Path to resource of default 3D vertex shader.
+     */
+    public static final String default3DVertexShaderResource = "me/ftvkyo/fuzzy_broccoli/client/graphics/opengl/shader-3d.vert";
+
+    /**
+     * Path to resource of default 3D fragment shader.
+     */
+    public static final String default3DFragmentShaderResource = default2DFragmentShaderResource;
 
     private final int shaderProgram;
 
@@ -55,6 +68,25 @@ public class ShaderProgram implements AutoCloseable {
 
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
+    }
+
+
+    public static ShaderProgram fromResources(String vertexShaderPath, String fragmentShaderPath) {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+        try(InputStream vertexShader = cl.getResourceAsStream(vertexShaderPath);
+            InputStream fragmentShader = cl.getResourceAsStream(fragmentShaderPath)) {
+            if(vertexShader == null || fragmentShader == null) {
+                throw new RuntimeException("Shader not found.");
+            }
+
+            Scanner vertexS = new Scanner(vertexShader).useDelimiter("\\A");
+            Scanner fragmentS = new Scanner(fragmentShader).useDelimiter("\\A");
+
+            return new ShaderProgram(vertexS.next(), fragmentS.next()).use();
+        } catch(IOException e) {
+            throw new RuntimeException("Could not open shader file.", e);
+        }
     }
 
 
@@ -104,6 +136,14 @@ public class ShaderProgram implements AutoCloseable {
     public ShaderProgram use() {
         glUseProgram(shaderProgram);
         return this;
+    }
+
+
+    /**
+     * Disable current shader program.
+     */
+    public void reset() {
+        glUseProgram(0);
     }
 
 

@@ -1,13 +1,14 @@
 package me.ftvkyo.fuzzy_broccoli.client.graphics.opengl;
 
-import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.Utils;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.VertexColored;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.VertexSimple;
 import me.ftvkyo.fuzzy_broccoli.client.graphics.primitives.VertexTextured;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -43,56 +44,83 @@ public class MyGL {
 
 
     /**
-     * Create new Vertex Buffer Object from simple vertices and bind it to attribute atIndex in VAO.
+     * Create new Vertex Buffer Object from simple vertices and bind it to attribute positionIndex in VAO.
      *
-     * @param atIndex  attribute index that the VBO should be bind to
-     * @param vertices array of vertices that should be loaded into the VBO
-     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     * @param positionIndex attribute index of position
+     * @param vertices      array of vertices that should be loaded into the VBO
+     * @param VAO           Vertex Arrays Object that VBO should be bind to
      */
-    public static void bindVBO(int atIndex, VertexSimple[] vertices, int VAO) {
-        final int positionComponents = VertexSimple.componentsPerPosition();
+    public static void bindSimpleVBO(int positionIndex, @NotNull ArrayList<VertexSimple> vertices, int VAO) {
+        if(vertices.size() < 1) {
+            throw new IllegalArgumentException("Vertices size must be greater than 0");
+        }
 
-        float[] verticesArray = Utils.asArray(vertices);
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(verticesArray.length).put(verticesArray).flip();
-        bindVBO(VertexSimple.componentSize(), atIndex, positionComponents, buffer, VAO);
+        final int positionComponents = vertices.get(0).componentsPerPosition();
+
+
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.size() * positionComponents);
+        for(VertexSimple v : vertices) {
+            v.get(buffer);
+        }
+        buffer.flip();
+
+        bindVBO(vertices.get(0).componentSize(), positionIndex, positionComponents, buffer, VAO);
     }
 
 
     /**
-     * Create new Vertex Buffer Object from colored vertices and bind it to attribute atIndex in VAO.
-     * Assumes that color attribute location is atIndex + 1.
+     * Create new Vertex Buffer Object from colored vertices and bind it to attribute positionIndex in VAO.
+     * Assumes that color attribute location is positionIndex + 1.
      * TODO: Add parameter for color attribute location.
      *
-     * @param atIndex  attribute index that the VBO should be bind to
-     * @param vertices array of vertices that should be loaded into the VBO
-     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     * @param positionIndex attribute index of position
+     * @param colorIndex    attribute index of color
+     * @param vertices      array of vertices that should be loaded into the VBO
+     * @param VAO           Vertex Arrays Object that VBO should be bind to
      */
-    public static void bindVBO(int atIndex, VertexColored[] vertices, int VAO) {
-        final int positionComponents = VertexColored.componentsPerPosition();
-        final int colorComponents = VertexColored.componentsPerColor();
+    public static void bindColoredVBO(int positionIndex, int colorIndex, @NotNull ArrayList<VertexColored> vertices, int VAO) {
+        if(vertices.size() < 1) {
+            throw new IllegalArgumentException("Vertices size must be greater than 0");
+        }
 
-        float[] verticesArray = Utils.asArray(vertices);
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(verticesArray.length).put(verticesArray).flip();
-        bindVBO(VertexColored.componentSize(), atIndex, positionComponents, atIndex + 1, colorComponents, buffer, VAO);
+        final int positionComponents = vertices.get(0).componentsPerPosition();
+        final int colorComponents = vertices.get(0).componentsPerColor();
+
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.size() * (positionComponents + colorComponents));
+        for(VertexColored v : vertices) {
+            v.get(buffer);
+        }
+        buffer.flip();
+
+        bindVBO(vertices.get(0).componentSize(), positionIndex, positionComponents, colorIndex, colorComponents, buffer, VAO);
     }
 
 
     /**
-     * Create new Vertex Buffer Object from textured vertices and bind it to attribute atIndex in VAO.
-     * Assumes that texture attribute location is atIndex + 1.
+     * Create new Vertex Buffer Object from textured vertices and bind it to attribute positionIndex in VAO.
+     * Assumes that texture attribute location is positionIndex + 1.
      * TODO: Add parameter for texture attribute location.
      *
-     * @param atIndex  attribute index that the VBO should be bind to
-     * @param vertices array of vertices that should be loaded into the VBO
-     * @param VAO      Vertex Arrays Object that VBO should be bind to
+     * @param positionIndex attribute index of position
+     * @param textureIndex  attribute index of texture
+     * @param vertices      array of vertices that should be loaded into the VBO
+     * @param VAO           Vertex Arrays Object that VBO should be bind to
      */
-    public static void bindVBO(int atIndex, VertexTextured[] vertices, int VAO) {
-        final int positionComponents = VertexTextured.componentsPerPosition();
-        final int textureComponents = VertexTextured.componentsPerTexture();
+    public static void bindTexturedVBO(int positionIndex, int textureIndex, @NotNull ArrayList<VertexTextured> vertices, int VAO) {
+        if(vertices.size() < 1) {
+            throw new IllegalArgumentException("Vertices size must be greater than 0");
+        }
 
-        float[] verticesArray = Utils.asArray(vertices);
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(verticesArray.length).put(verticesArray).flip();
-        bindVBO(VertexColored.componentSize(), atIndex, positionComponents, atIndex + 1, textureComponents, buffer, VAO);
+        final int positionComponents = vertices.get(0).componentsPerPosition();
+        final int textureComponents = vertices.get(0).componentsPerTexture();
+
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.size() * (positionComponents + textureComponents));
+        for(VertexTextured v : vertices) {
+            v.get(buffer);
+        }
+        buffer.flip();
+
+        bindVBO(vertices.get(0).componentSize(), positionIndex, positionComponents, textureIndex, textureComponents, buffer, VAO);
     }
 
 
@@ -105,7 +133,7 @@ public class MyGL {
      * @param buffer        raw consecutive vertices components that should be loaded into the VBO
      * @param VAO           Vertex Arrays Object that VBO should be bind to
      */
-    private static void bindVBO(int componentSize, int atIndex, int components, FloatBuffer buffer, int VAO) {
+    private static void bindVBO(int componentSize, int atIndex, int components, @NotNull FloatBuffer buffer, int VAO) {
         final int attributeStride = componentSize * components;
 
         /* VBO is used to store vertices. */
@@ -135,7 +163,7 @@ public class MyGL {
      * @param buffer        raw consecutive vertices components that should be loaded into the VBO
      * @param VAO           Vertex Arrays Object that VBO should be bind to
      */
-    private static void bindVBO(int componentSize, int atIndex1, int components1, int atIndex2, int components2, FloatBuffer buffer, int VAO) {
+    private static void bindVBO(int componentSize, int atIndex1, int components1, int atIndex2, int components2, @NotNull FloatBuffer buffer, int VAO) {
         final int attributeStride = componentSize * (components1 + components2);
 
         /* VBO is used to store vertices. */
@@ -162,8 +190,12 @@ public class MyGL {
      * @param indices indices that should be loaded into the EBO
      * @param VAO     Vertex Arrays Object that EBO should be stored in
      */
-    public static void bindEBO(int[] indices, int VAO) {
-        IntBuffer buffer = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+    public static void bindEBO(@NotNull ArrayList<Integer> indices, int VAO) {
+        IntBuffer buffer = BufferUtils.createIntBuffer(indices.size());
+        for(int i : indices) {
+            buffer.put(i);
+        }
+        buffer.flip();
 
         /* EBO is used to store indices. */
         int EBO = glGenBuffers();
@@ -178,5 +210,13 @@ public class MyGL {
         /* Unbinding EBO can be skipped because it is unbound with VAO. */
         /* EBO can be deleted: https://www.khronos.org/registry/OpenGL/specs/gl/glspec33.core.pdf D.1.2 */
         glDeleteBuffers(EBO);
+    }
+
+
+    public static void checkError() {
+        int err = glGetError();
+        if(err != GL_NO_ERROR) {
+            throw new RuntimeException("GL Error: " + err);
+        }
     }
 }

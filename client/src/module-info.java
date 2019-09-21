@@ -1,6 +1,8 @@
 module me.ftvkyo.fuzzy_broccoli.client {
     requires me.ftvkyo.fuzzy_broccoli.common;
 
+    requires org.joml;
+
     requires org.lwjgl;
     requires org.lwjgl.assimp;
     requires org.lwjgl.glfw;
