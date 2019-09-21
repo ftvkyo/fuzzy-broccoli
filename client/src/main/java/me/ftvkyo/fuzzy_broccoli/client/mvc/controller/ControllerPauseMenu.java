@@ -21,25 +21,11 @@ class ControllerPauseMenu extends Controller {
         if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
             this.viewManager.setView("game");
             this.controllerManager.setController("game");
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         }
 
         if(key == GLFW_KEY_ENTER && action == GLFW_RELEASE) {
             this.viewManager.setView("main-menu");
             this.controllerManager.setController("main-menu");
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
-    }
-
-
-    @Override
-    public void mouseClick(long window, long button, long action, long mods) {
-
-    }
-
-
-    @Override
-    public void mouseMove(long window, double xPosition, double yPosition) {
-
     }
 }

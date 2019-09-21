@@ -37,9 +37,13 @@ public class ManagerForController {
      * @param controllerName implementation of InputProcessor.
      */
     public ManagerForController setController(@NotNull String controllerName) {
+        if(this.currentController != null) {
+            this.currentController.terminate(this.windowGLFW);
+        }
         this.currentController = availableControllers.get(controllerName);
 
         if(this.currentController != null) {
+            this.currentController.init(this.windowGLFW);
             glfwSetKeyCallback(this.windowGLFW, this.currentController::keypress);
             glfwSetMouseButtonCallback(this.windowGLFW, this.currentController::mouseClick);
             glfwSetCursorPosCallback(this.windowGLFW, this.currentController::mouseMove);

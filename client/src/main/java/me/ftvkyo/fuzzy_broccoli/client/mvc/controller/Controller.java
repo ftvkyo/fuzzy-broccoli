@@ -24,6 +24,14 @@ abstract class Controller {
     }
 
 
+    public void init(long window) {
+    }
+
+
+    public void terminate(long window) {
+    }
+
+
     /**
      * Callback for keyboard user input.
      *

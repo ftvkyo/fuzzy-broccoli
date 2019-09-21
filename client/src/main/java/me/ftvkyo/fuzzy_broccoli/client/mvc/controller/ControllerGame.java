@@ -27,8 +27,17 @@ class ControllerGame extends Controller {
 
 
     @Override
-    public void mouseClick(long window, long button, long action, long mods) {
+    public void init(long window) {
+        super.init(window);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        glfwSetCursorPos(window, viewManager.getWindowWidth() / 2.0, viewManager.getWindowHeight() / 2.0);
+    }
 
+
+    @Override
+    public void terminate(long window) {
+        super.terminate(window);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 
 

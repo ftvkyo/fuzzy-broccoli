@@ -29,19 +29,6 @@ class ControllerMainMenu extends Controller {
             this.modelManager.setModel(new Model(new File(""), "player"));
             this.viewManager.setView("game");
             this.controllerManager.setController("game");
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         }
-    }
-
-
-    @Override
-    public void mouseClick(long window, long button, long action, long mods) {
-
-    }
-
-
-    @Override
-    public void mouseMove(long window, double xPosition, double yPosition) {
-
     }
 }
