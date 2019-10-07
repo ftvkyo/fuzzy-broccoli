@@ -26,16 +26,22 @@ class Main private constructor() : AutoCloseable {
     private fun run() {
         try {
             while (!viewManager.shouldClose()) {
+                val timeBegin = System.currentTimeMillis()
+
                 this.modelManager.update()
                 this.viewManager.redraw(modelManager)
                 this.controllerManager.pollEvents()
 
-                Thread.sleep(MSPF.toLong())
+                val durationOfCycle = System.currentTimeMillis().minus(timeBegin)
+                val durationToWait = MSPerFrame.minus(durationOfCycle)
+
+                if(durationToWait > 0) {
+                    Thread.sleep(durationToWait)
+                }
             }
         } catch (e: InterruptedException) {
             println("Thread was interrupted.")
         }
-
     }
 
 
@@ -48,7 +54,7 @@ class Main private constructor() : AutoCloseable {
 
         private const val FPS = 60
 
-        private const val MSPF = 1000 / FPS
+        private const val MSPerFrame = 1000 / FPS;
 
 
         @JvmStatic

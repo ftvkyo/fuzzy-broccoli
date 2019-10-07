@@ -51,7 +51,7 @@ class Model(private val worldFilename: File, val playerName: String) : AutoClose
             for (x in 0 until Region.SIDE) {
                 for (y in 0 until Region.SIDE) {
                     for (z in 0 until Region.SIDE) {
-                        if (abs(x) + abs(y) + abs(z) > 2 && rand.nextInt(100) < 1) {
+                        if (abs(x) + abs(y) + abs(z) > 2 && rand.nextInt(100) < 2) {
                             r.setBlock(x, y, z, Block("dirt"))
                         }
                     }
