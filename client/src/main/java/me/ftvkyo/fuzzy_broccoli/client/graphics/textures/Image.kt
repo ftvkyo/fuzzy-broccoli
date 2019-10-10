@@ -82,11 +82,11 @@ class Image private constructor(private val image: ByteBuffer, private val w: In
                 val comp = stack.mallocInt(1)
 
                 if (!stbi_info_from_memory(buffer, w, h, comp)) {
-                    throw RuntimeException("Failed to read image information: " + stbi_failure_reason()!!)
+                    throw RuntimeException("Failed to read image information: ${stbi_failure_reason()}")
                 }
 
                 val imageTmp = stbi_load_from_memory(buffer, w, h, comp, 0)
-                        ?: throw RuntimeException("Failed to load image: " + stbi_failure_reason()!!)
+                        ?: throw RuntimeException("Failed to load image: ${stbi_failure_reason()}")
 
                 return Image(imageTmp, w.get(0), h.get(0), comp.get(0))
             }

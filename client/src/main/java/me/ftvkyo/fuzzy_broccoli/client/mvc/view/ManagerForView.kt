@@ -30,7 +30,7 @@ class ManagerForView : AutoCloseable {
      */
     val windowGLFW: Long
 
-    private var currentView: View? = null
+    private var currentView: View
 
     private val availableViews = HashMap<String, View>()
 
@@ -60,11 +60,11 @@ class ManagerForView : AutoCloseable {
         availableViews["pause-menu"] = ViewPauseMenu()
         availableViews["game"] = ViewGame()
 
+        currentView = availableViews["main-menu"]!!
+
         glEnable(GL_DEPTH_TEST)
         glfwSwapInterval(1)
         glfwShowWindow(windowGLFW)
-
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
 
@@ -82,12 +82,10 @@ class ManagerForView : AutoCloseable {
     /**
      * Redraw screen contents.
      */
-    fun redraw(modelManager: ManagerForModel?) {
+    fun redraw(modelManager: ManagerForModel) {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
-        if (currentView != null) {
-            currentView!!.draw(modelManager)
-        }
+        currentView.draw(modelManager)
 
         MyGL.checkError()
 
@@ -103,15 +101,12 @@ class ManagerForView : AutoCloseable {
      * @return this.
      */
     fun setView(viewName: String): ManagerForView {
-        if (currentView != null) {
-            currentView!!.clear()
-        }
+        currentView.clear()
 
         currentView = availableViews[viewName]
+                ?: throw RuntimeException("There is no such view: $viewName")
 
-        if (currentView != null) {
-            currentView!!.init()
-        }
+        currentView.init()
 
         return this
     }
@@ -132,6 +127,6 @@ class ManagerForView : AutoCloseable {
         glfwDestroyWindow(windowGLFW)
 
         glfwTerminate()
-        glfwSetErrorCallback(null)!!.free()
+        glfwSetErrorCallback(null)?.free()
     }
 }

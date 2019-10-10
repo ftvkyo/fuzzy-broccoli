@@ -18,17 +18,11 @@ internal interface View {
     /**
      * Draw this Drawable.
      */
-    fun draw(modelManager: ManagerForModel?)
+    fun draw(modelManager: ManagerForModel)
 
 
     /**
      * Perform cleanup after use of this Drawable.
      */
     fun clear()
-
-
-    enum class State {
-        Empty,
-        Ready
-    }
 }

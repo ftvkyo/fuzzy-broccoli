@@ -19,7 +19,7 @@ internal class ViewMainMenu : View {
     }
 
 
-    override fun draw(modelManager: ManagerForModel?) {}
+    override fun draw(modelManager: ManagerForModel) {}
 
 
     override fun clear() {

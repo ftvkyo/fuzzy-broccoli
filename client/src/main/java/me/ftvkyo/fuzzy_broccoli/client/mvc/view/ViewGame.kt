@@ -49,14 +49,17 @@ internal class ViewGame : View {
     }
 
 
-    override fun draw(modelManager: ManagerForModel?) {
-        val mm = modelManager ?: error("")
+    override fun draw(modelManager: ManagerForModel) {
         // Load vertices into GPU and put them into the attributes list at index 0 of given VAO
-        mm.getScreenContents(vertices, verticesOrder)
+        modelManager.getScreenContents(vertices, verticesOrder)
         MyGL.bindTexturedVBO(vertexAttributeIndex, textureAttributeIndex, vertices, VAO)
         MyGL.bindEBO(verticesOrder, VAO)
 
-        val player = mm.getModel()!!.getPlayers()[mm.getModel()!!.playerName] ?: error("")
+        val model = modelManager.getModel()
+                ?: return
+        val player = model.getPlayers()[model.playerName]
+                ?: throw RuntimeException("There is no such player: ${model.playerName}")
+
         val mModel = Matrix4f()
                 .rotate(Math.toRadians(player.view.y.toDouble()).toFloat(), Vector3f(1f, 0f, 0f))
                 .rotate(Math.toRadians(player.view.x.toDouble()).toFloat(), Vector3f(0f, 1f, 0f))

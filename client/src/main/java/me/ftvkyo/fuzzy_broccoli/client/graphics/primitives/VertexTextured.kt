@@ -12,7 +12,7 @@ import java.nio.FloatBuffer
  */
 class VertexTextured : VertexSimple {
 
-    private var texture: Vector2f? = null
+    private val texture: Vector2f
 
 
     constructor(x: Float, y: Float, z: Float, textureX: Float, textureY: Float) : super(x, y, z) {
@@ -37,7 +37,7 @@ class VertexTextured : VertexSimple {
 
     override fun get(fb: FloatBuffer) {
         super.get(fb)
-        texture!!.get(fb)
+        texture.get(fb)
         fb.position(fb.position() + componentsPerTexture())
     }
 }

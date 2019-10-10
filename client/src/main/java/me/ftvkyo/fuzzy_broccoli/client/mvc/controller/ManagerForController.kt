@@ -8,16 +8,17 @@ import java.util.*
 
 class ManagerForController(private val windowGLFW: Long, private val mv: ManagerForView, mm: ManagerForModel) {
 
-    private var currentController: Controller? = null
+    private var currentController: Controller
 
     private val availableControllers = HashMap<String, Controller>()
 
 
     init {
-
         availableControllers["main-menu"] = ControllerMainMenu(mv, mm, this)
         availableControllers["pause-menu"] = ControllerPauseMenu(mv, mm, this)
         availableControllers["game"] = ControllerGame(mv, mm, this)
+
+        currentController = availableControllers["main-menu"]!!
     }
 
 
@@ -27,20 +28,19 @@ class ManagerForController(private val windowGLFW: Long, private val mv: Manager
      * @param controllerName implementation of InputProcessor.
      */
     fun setController(controllerName: String): ManagerForController {
-        if (this.currentController != null) {
-            this.currentController!!.terminate(this.windowGLFW)
-        }
+        this.currentController.terminate(this.windowGLFW)
         this.currentController = availableControllers[controllerName]
+                ?: throw RuntimeException("There is no such controller: $controllerName")
 
-        if (this.currentController != null) {
-            this.currentController!!.init(this.windowGLFW)
-            glfwSetKeyCallback(this.windowGLFW) { window, key, scancode, action, mods -> this.currentController!!.keypress(window, key, scancode, action, mods) }
-            glfwSetMouseButtonCallback(this.windowGLFW) { window, button, action, mods -> this.currentController!!.mouseClick(window, button, action, mods) }
-            glfwSetCursorPosCallback(this.windowGLFW) { window, xPosition, yPosition -> this.currentController!!.mouseMove(window, xPosition, yPosition) }
-        } else {
-            nglfwSetKeyCallback(this.windowGLFW, 0)
-            nglfwSetMouseButtonCallback(this.windowGLFW, 0)
-            nglfwSetCursorPosCallback(this.windowGLFW, 0)
+        this.currentController.init(this.windowGLFW)
+        glfwSetKeyCallback(this.windowGLFW) { window, key, scancode, action, mods ->
+            this.currentController.keypress(window, key, scancode, action, mods)
+        }
+        glfwSetMouseButtonCallback(this.windowGLFW) { window, button, action, mods ->
+            this.currentController.mouseClick(window, button, action, mods)
+        }
+        glfwSetCursorPosCallback(this.windowGLFW) { window, xPosition, yPosition ->
+            this.currentController.mouseMove(window, xPosition, yPosition)
         }
 
         glfwSetFramebufferSizeCallback(windowGLFW) { _, width, height ->

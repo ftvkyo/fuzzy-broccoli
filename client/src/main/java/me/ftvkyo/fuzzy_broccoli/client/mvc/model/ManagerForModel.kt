@@ -6,6 +6,7 @@ import me.ftvkyo.fuzzy_broccoli.common.mvc.model.Model
 import me.ftvkyo.fuzzy_broccoli.common.mvc.model.parts.Region
 import org.joml.Vector2f
 import org.joml.Vector3f
+import java.lang.RuntimeException
 import java.util.*
 
 
@@ -23,10 +24,8 @@ class ManagerForModel : AutoCloseable {
     }
 
 
-    fun setModel(model: Model): ManagerForModel {
-        if (this.model != null) {
-            this.model!!.close()
-        }
+    fun setModel(model: Model?): ManagerForModel {
+        this.model?.close()
         this.model = model
 
         return this
@@ -34,16 +33,12 @@ class ManagerForModel : AutoCloseable {
 
 
     fun update() {
-        if (this.model != null) {
-            this.model!!.tick()
-        }
+        this.model?.tick()
     }
 
 
     override fun close() {
-        if (this.model != null) {
-            this.model!!.close()
-        }
+        this.model?.close()
     }
 
 
@@ -51,9 +46,10 @@ class ManagerForModel : AutoCloseable {
         vs.clear()
         vOrder.clear()
 
-        checkNotNull(this.model) { "Can not get contents of empty model." }
+        val model = this.model ?: return
 
-        val player = model!!.getPlayers()[model!!.playerName] ?: error("")
+        val player = model.getPlayers()[model.playerName]
+                ?: throw RuntimeException("There is no such player: ${model.playerName}")
         val playerPosition = player.position
         val centralRegionPosition = Region.Position.fromCreaturePosition(playerPosition)
 
@@ -61,7 +57,7 @@ class ManagerForModel : AutoCloseable {
         val nearestRegions = arrayOfNulls<Region>(nearestPositions.size)
 
         for (i in nearestPositions.indices) {
-            nearestRegions[i] = model!!.getRegion(nearestPositions[i])
+            nearestRegions[i] = model.getRegion(nearestPositions[i])
 
             if (nearestRegions[i] == null) {
                 continue

@@ -20,7 +20,7 @@ internal class ViewPauseMenu : View {
     }
 
 
-    override fun draw(modelManager: ManagerForModel?) {}
+    override fun draw(modelManager: ManagerForModel) {}
 
 
     override fun clear() {

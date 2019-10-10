@@ -92,7 +92,7 @@ class ShaderProgram(vertexShaderSource: String, fragmentShaderSource: String) : 
                 cl.getResourceAsStream(fragmentShaderPath)!!.use { fragmentShader ->
                     val vertexS = Scanner(vertexShader).useDelimiter("\\A")
                     val fragmentS = Scanner(fragmentShader).useDelimiter("\\A")
-                    return ShaderProgram(vertexS.next(), fragmentS.next()).use()
+                    return ShaderProgram(vertexS.next(), fragmentS.next())
                 }
             }
 

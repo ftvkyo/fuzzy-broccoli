@@ -72,11 +72,11 @@ class Region {
 
 
         override fun equals(other: Any?): Boolean {
-            if (javaClass != other!!.javaClass) {
+            if (javaClass != other?.javaClass) {
                 return false
             }
-            val p = other as Position?
-            return this.pos.x == p!!.pos.x && this.pos.y == p.pos.y && this.pos.z == p.pos.z
+            val p = other as Position
+            return this.pos.x == p.pos.x && this.pos.y == p.pos.y && this.pos.z == p.pos.z
         }
 
 

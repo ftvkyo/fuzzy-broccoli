@@ -34,7 +34,11 @@ internal class ControllerGame(viewManager: ManagerForView, modelManager: Manager
 
 
     override fun mouseMove(window: Long, xPosition: Double, yPosition: Double) {
-        val player = modelManager.getModel()!!.getPlayers()[modelManager.getModel()!!.playerName] ?: error("")
+        val model = modelManager.getModel()
+                ?: return
+        val player = model.getPlayers()[model.playerName]
+                ?: throw RuntimeException("There is no such player: ${model.playerName}")
+
         player.view = Vector2f(
                 player.view.x - ((viewManager.windowWidth / 2.0 - xPosition) / 10).toFloat(),
                 player.view.y - ((viewManager.windowHeight / 2.0 - yPosition) / 10).toFloat())

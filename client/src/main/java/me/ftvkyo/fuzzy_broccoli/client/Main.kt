@@ -3,7 +3,6 @@ package me.ftvkyo.fuzzy_broccoli.client
 import me.ftvkyo.fuzzy_broccoli.client.mvc.controller.ManagerForController
 import me.ftvkyo.fuzzy_broccoli.client.mvc.model.ManagerForModel
 import me.ftvkyo.fuzzy_broccoli.client.mvc.view.ManagerForView
-import me.ftvkyo.fuzzy_broccoli.common.ArgumentProcessor
 
 
 /**
@@ -32,8 +31,8 @@ class Main private constructor() : AutoCloseable {
                 this.viewManager.redraw(modelManager)
                 this.controllerManager.pollEvents()
 
-                val durationOfCycle = System.currentTimeMillis().minus(timeBegin)
-                val durationToWait = MSPerFrame.minus(durationOfCycle)
+                val durationOfCycle = System.currentTimeMillis() - timeBegin
+                val durationToWait = MSPerFrame - durationOfCycle
 
                 if(durationToWait > 0) {
                     Thread.sleep(durationToWait)
@@ -50,6 +49,7 @@ class Main private constructor() : AutoCloseable {
         viewManager.close()
     }
 
+
     companion object {
 
         private const val FPS = 60
@@ -59,13 +59,7 @@ class Main private constructor() : AutoCloseable {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val prefix = " [client] "
-
-            ArgumentProcessor.printAll(prefix, args)
-
             Main().run()
-
-            println(prefix + "Done!")
         }
     }
 }

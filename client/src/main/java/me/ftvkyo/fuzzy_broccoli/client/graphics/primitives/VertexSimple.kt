@@ -12,7 +12,7 @@ import java.nio.FloatBuffer
  */
 open class VertexSimple {
 
-    private var position: Vector4f? = null
+    private val position: Vector4f
 
 
     constructor(x: Float, y: Float, z: Float) {
@@ -46,7 +46,7 @@ open class VertexSimple {
 
 
     open operator fun get(fb: FloatBuffer) {
-        position!!.get(fb)
+        position.get(fb)
         fb.position(fb.position() + componentsPerPosition())
     }
 }
